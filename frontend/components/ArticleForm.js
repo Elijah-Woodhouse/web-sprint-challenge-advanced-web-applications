@@ -4,15 +4,23 @@ import PT from 'prop-types'
 const initialFormValues = { title: '', text: '', topic: '' }
 
 export default function ArticleForm(props) {
-  const [values, setValues] = useState(initialFormValues)
+  const [values, setValues] = useState(initialFormValues);
   // ✨ where are my props? Destructure them here
+  const { postArticle, setCurrentArticleId, currentArticleId, updateArticle, articles } = props;
+
 
   useEffect(() => {
     // ✨ implement
     // Every time the `currentArticle` prop changes, we should check it for truthiness:
+    if(currentArticleId) {
+      console.log(currentArticleId);
+      const match = articles.find(article => article.article_id === currentArticleId);
+      setValues(match);
+      console.log(values);
+    }
     // if it's truthy, we should set its title, text and topic into the corresponding
     // values of the form. If it's not, we should reset the form back to initial values.
-  })
+  }, [currentArticleId])
 
   const onChange = evt => {
     const { id, value } = evt.target
@@ -24,6 +32,8 @@ export default function ArticleForm(props) {
     // ✨ implement
     // We must submit a new post or update an existing one,
     // depending on the truthyness of the `currentArticle` prop.
+    postArticle(values);
+    setValues(initialFormValues);
   }
 
   const isDisabled = () => {
