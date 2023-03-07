@@ -39,24 +39,30 @@ export default function App() {
   const login = ({ username, password }) => {
     // ✨ implement
     //setMessage("Here are your articles, " + `${username}!`);
+<<<<<<< HEAD
     //const token = localStorage.getItem('token');
     setSpinnerOn(true);
     //setMessage('');
+=======
+    setMessage('');
+>>>>>>> parent of d178c72 (all tests passing except for test 3 which goes over login functionality)
     axios.post(loginUrl, {username, password})
     .then(res => {
+      console.log(res.data.token)
+      localStorage.setItem("token", res.data.token)
       redirectToArticles();
+<<<<<<< HEAD
       setMessage(res.data.message);
       localStorage.setItem("token", res.data.token);
       setMessage("Here are your articles, " + `${username}` + "!")
       // localStorage.getItem('token');
       //getArticles();
+=======
+>>>>>>> parent of d178c72 (all tests passing except for test 3 which goes over login functionality)
     })
     .catch(err => {
       console.log(err);
     })
-    setTimeout(() => {
-      setSpinnerOn(false)
-    }, 1000);
   }
 
   const getArticles = () => {
@@ -69,6 +75,7 @@ export default function App() {
     }})
     .then(res => {
       console.log(res.data);
+      setMessage(res.data.message);
       setArticles(res.data.articles);
       //setMessage(res.data.message);
     })
@@ -87,7 +94,7 @@ export default function App() {
       authorization: token
     }})
     .then(res => {
-      console.log(res.data.message);
+      console.log(res.data);
       getArticles();
       setMessage(res.data.message);
     })
@@ -133,7 +140,6 @@ export default function App() {
     }})
     .then(res => {
       console.log(res);
-      setMessage(res.data.message)
       getArticles();
     })
     .catch(err => {
