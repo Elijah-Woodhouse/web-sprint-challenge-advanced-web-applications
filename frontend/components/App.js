@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { NavLink, Routes, Route, useNavigate } from 'react-router-dom'
+import { NavLink, Routes, Route, useNavigate, Navigate } from 'react-router-dom'
 import Articles from './Articles'
 import LoginForm from './LoginForm'
 import Message from './Message'
@@ -39,13 +39,17 @@ export default function App() {
   const login = ({ username, password }) => {
     // ✨ implement
     //setMessage("Here are your articles, " + `${username}!`);
+    //const token = localStorage.getItem('token');
     setSpinnerOn(true);
     //setMessage('');
     axios.post(loginUrl, {username, password})
     .then(res => {
       redirectToArticles();
+      setMessage(res.data.message);
       localStorage.setItem("token", res.data.token);
       setMessage("Here are your articles, " + `${username}` + "!")
+      // localStorage.getItem('token');
+      //getArticles();
     })
     .catch(err => {
       console.log(err);
@@ -66,6 +70,7 @@ export default function App() {
     .then(res => {
       console.log(res.data);
       setArticles(res.data.articles);
+      //setMessage(res.data.message);
     })
     setTimeout(() => {
       setSpinnerOn(false);
@@ -93,6 +98,7 @@ export default function App() {
 
   const updateArticle = (details) => {
     // ✨ implement
+    setMessage("");
     const token = localStorage.getItem('token');
     const { values } = details;
     const params = {
@@ -139,6 +145,18 @@ export default function App() {
     }, 1000)
   }
 
+  function ProtectedArticles() {
+    if (!localStorage.getItem('token')) {
+      return <Navigate to="/"/>
+    } return <Articles deleteArticle={deleteArticle} articles={articles} getArticles={getArticles} setCurrentArticleId={setCurrentArticleId} currentArticleId={currentArticleId}/>
+  }
+
+  function ProtectedArticleForm() {
+    if (!localStorage.getItem('token')) {
+      return <Navigate to="/"/>
+    } return <ArticleForm currentArticleId={currentArticleId} postArticle={postArticle} updateArticle={updateArticle} setCurrentArticleId={setCurrentArticleId} articles={articles}/>
+  }
+
   return (
     // ✨ fix the JSX: `Spinner`, `Message`, `LoginForm`, `ArticleForm` and `Articles` expect props ❗
     <>
@@ -153,10 +171,10 @@ export default function App() {
         </nav>
         <Routes>
           <Route path="/" element={<LoginForm login={login}/>} />
-          <Route path="articles" element={
+          <Route path="/articles" element={
             <>
-              <ArticleForm currentArticleId={currentArticleId} postArticle={postArticle} updateArticle={updateArticle} setCurrentArticleId={setCurrentArticleId} articles={articles}/>
-              <Articles deleteArticle={deleteArticle} articles={articles} getArticles={getArticles} setCurrentArticleId={setCurrentArticleId} currentArticleId={currentArticleId}/>
+             <ProtectedArticleForm />
+             <ProtectedArticles />
             </>
           } />
         </Routes>

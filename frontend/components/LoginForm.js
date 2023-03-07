@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PT from 'prop-types'
 
 const initialFormValues = {
@@ -10,6 +10,10 @@ export default function LoginForm(props) {
   // ✨ where are my props? Destructure them here
   const { login } = props;
 
+  useEffect(() => {
+    setValues(initialFormValues);
+  }, [])
+
   const onChange = evt => {
     const { id, value } = evt.target
     setValues({ ...values, [id]: value })
@@ -19,14 +23,13 @@ export default function LoginForm(props) {
     evt.preventDefault()
     // ✨ implement
     login(values);
-    setValues(initialFormValues);
   }
 
   const isDisabled = () => {
     // ✨ implement
     if(values.username.trim().length < 3 || values.password.trim().length < 8){
       return true
-    } else {
+    } else if( values.username.trim().length >= 3 && values.password.trim().length >= 8 ){
       return false
     }
   }
