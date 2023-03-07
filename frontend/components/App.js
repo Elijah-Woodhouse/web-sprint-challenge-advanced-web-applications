@@ -39,16 +39,20 @@ export default function App() {
   const login = ({ username, password }) => {
     // ✨ implement
     //setMessage("Here are your articles, " + `${username}!`);
-    setMessage('');
+    setSpinnerOn(true);
+    //setMessage('');
     axios.post(loginUrl, {username, password})
     .then(res => {
-      console.log(res.data.token)
-      localStorage.setItem("token", res.data.token)
       redirectToArticles();
+      localStorage.setItem("token", res.data.token);
+      setMessage("Here are your articles, " + `${username}` + "!")
     })
     .catch(err => {
       console.log(err);
     })
+    setTimeout(() => {
+      setSpinnerOn(false)
+    }, 1000);
   }
 
   const getArticles = () => {
@@ -61,7 +65,6 @@ export default function App() {
     }})
     .then(res => {
       console.log(res.data);
-      setMessage(res.data.message);
       setArticles(res.data.articles);
     })
     setTimeout(() => {
@@ -79,7 +82,7 @@ export default function App() {
       authorization: token
     }})
     .then(res => {
-      console.log(res.data);
+      console.log(res.data.message);
       getArticles();
       setMessage(res.data.message);
     })
@@ -124,6 +127,7 @@ export default function App() {
     }})
     .then(res => {
       console.log(res);
+      setMessage(res.data.message)
       getArticles();
     })
     .catch(err => {
