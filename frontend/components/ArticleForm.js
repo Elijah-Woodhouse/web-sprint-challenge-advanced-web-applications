@@ -14,12 +14,9 @@ export default function ArticleForm(props) {
     // ✨ implement
     // Every time the `currentArticle` prop changes, we should check it for truthiness:
     if(currentArticleId) {
-      console.log(currentArticleId);
       const match = articles.find(article => article.article_id === currentArticleId);
       setValues(match);
-    } else if(!currentArticleId){
-      setValues(initialFormValues);
-    }
+     } 
     // if it's truthy, we should set its title, text and topic into the corresponding
     // values of the form. If it's not, we should reset the form back to initial values.
   }, [currentArticleId])
@@ -29,14 +26,18 @@ export default function ArticleForm(props) {
     setValues({ ...values, [id]: value })
   }
 
+
   const onSubmit = evt => {
     evt.preventDefault()
+    console.log(values);
     // ✨ implement
     // We must submit a new post or update an existing one,
     // depending on the truthyness of the `currentArticle` prop.
     if(currentArticleId){
-      updateArticle({currentArticleId, values})
+      updateArticle({currentArticleId, values});
+      console.log(values);
     } else if(!currentArticleId) {
+      console.log(values);
       postArticle(values);
     }
     setValues(initialFormValues);

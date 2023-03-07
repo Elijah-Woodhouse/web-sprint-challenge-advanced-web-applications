@@ -39,26 +39,20 @@ export default function App() {
   const login = ({ username, password }) => {
     // ✨ implement
     //setMessage("Here are your articles, " + `${username}!`);
-<<<<<<< HEAD
     //const token = localStorage.getItem('token');
     setSpinnerOn(true);
     //setMessage('');
-=======
     setMessage('');
->>>>>>> parent of d178c72 (all tests passing except for test 3 which goes over login functionality)
     axios.post(loginUrl, {username, password})
     .then(res => {
       console.log(res.data.token)
       localStorage.setItem("token", res.data.token)
       redirectToArticles();
-<<<<<<< HEAD
       setMessage(res.data.message);
       localStorage.setItem("token", res.data.token);
       setMessage("Here are your articles, " + `${username}` + "!")
       // localStorage.getItem('token');
       //getArticles();
-=======
->>>>>>> parent of d178c72 (all tests passing except for test 3 which goes over login functionality)
     })
     .catch(err => {
       console.log(err);
@@ -75,7 +69,7 @@ export default function App() {
     }})
     .then(res => {
       console.log(res.data);
-      setMessage(res.data.message);
+      //setMessage(res.data.message);
       setArticles(res.data.articles);
       //setMessage(res.data.message);
     })
@@ -95,8 +89,8 @@ export default function App() {
     }})
     .then(res => {
       console.log(res.data);
-      getArticles();
       setMessage(res.data.message);
+      getArticles();
     })
     setTimeout(() => {
       setSpinnerOn(false);
@@ -126,6 +120,7 @@ export default function App() {
     setTimeout(() => {
       setSpinnerOn(false);
       setCurrentArticleId();
+      //getArticles();
     }, 1000)
     }
 
@@ -140,6 +135,7 @@ export default function App() {
     }})
     .then(res => {
       console.log(res);
+      setMessage(res.data.message);
       getArticles();
     })
     .catch(err => {
@@ -147,21 +143,22 @@ export default function App() {
     })
     setTimeout(() => {
       setSpinnerOn(false)
+      //getArticles();
       setCurrentArticleId();
     }, 1000)
   }
 
-  function ProtectedArticles() {
-    if (!localStorage.getItem('token')) {
-      return <Navigate to="/"/>
-    } return <Articles deleteArticle={deleteArticle} articles={articles} getArticles={getArticles} setCurrentArticleId={setCurrentArticleId} currentArticleId={currentArticleId}/>
-  }
+  // function ProtectedArticles() {
+  //   if (!localStorage.getItem('token')) {
+  //     return <Navigate to="/"/>
+  //   } return <Articles deleteArticle={deleteArticle} articles={articles} getArticles={getArticles} setCurrentArticleId={setCurrentArticleId} currentArticleId={currentArticleId}/>
+  // }
 
-  function ProtectedArticleForm() {
-    if (!localStorage.getItem('token')) {
-      return <Navigate to="/"/>
-    } return <ArticleForm currentArticleId={currentArticleId} postArticle={postArticle} updateArticle={updateArticle} setCurrentArticleId={setCurrentArticleId} articles={articles}/>
-  }
+  // function ProtectedArticleForm() {
+  //   if (!localStorage.getItem('token')) {
+  //     return <Navigate to="/"/>
+  //   } return <ArticleForm currentArticleId={currentArticleId} postArticle={postArticle} updateArticle={updateArticle} setCurrentArticleId={setCurrentArticleId} articles={articles}/>
+  // }
 
   return (
     // ✨ fix the JSX: `Spinner`, `Message`, `LoginForm`, `ArticleForm` and `Articles` expect props ❗
@@ -179,8 +176,8 @@ export default function App() {
           <Route path="/" element={<LoginForm login={login}/>} />
           <Route path="/articles" element={
             <>
-             <ProtectedArticleForm />
-             <ProtectedArticles />
+             <ArticleForm currentArticleId={currentArticleId} postArticle={postArticle} updateArticle={updateArticle} setCurrentArticleId={setCurrentArticleId} articles={articles}/>
+             <Articles deleteArticle={deleteArticle} articles={articles} getArticles={getArticles} setCurrentArticleId={setCurrentArticleId} currentArticleId={currentArticleId}/>
             </>
           } />
         </Routes>

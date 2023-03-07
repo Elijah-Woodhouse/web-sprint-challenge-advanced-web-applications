@@ -11,23 +11,24 @@ export default function Articles(props) {
   // ✨ implement conditional logic: if no token exists
   // we should render a Navigate to login screen (React Router v.6)
 
-  // useEffect(() => {
-  //   const token = localStorage.getItem('token');
-  //   if(!token){
-  //     navigate("/");
-  //   } else if(token){
-  //     getArticles();
-  //   }
-  //   // ✨ grab the articles here, on first render only
-  // }, [])
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if(!token){
+      navigate("/");
+    } else if(token){
+      getArticles();
+    }
+    // ✨ grab the articles here, on first render only
+  }, [])
 
   // const token = localStorage.getItem('token');
 
   // if(!token){
-  //   navigate("");
-  // } else if(token){
-  //   //getArticles();
-  // }
+  //   navigate("/");
+  // } 
+  // // else if(token){
+  // //   //getArticles();
+  // // }
 
 
   
