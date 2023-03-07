@@ -74,6 +74,7 @@ export default function App() {
     const token = localStorage.getItem('token');
     setMessage("");
     setSpinnerOn(true);
+    console.log(token);
     axios.post(articlesUrl, article, {headers: {
       authorization: token
     }})
@@ -91,7 +92,7 @@ export default function App() {
     // ✨ implement
     const token = localStorage.getItem('token');
     setSpinnerOn(true);
-    axios.post(articlesUrl, article_id, article, {headers : {
+    axios.post("http://localhost:9000/api/articles" + `/${article_id}`, article, {headers : {
       authorization: token
     }})
     .then(res => {
@@ -109,11 +110,14 @@ export default function App() {
     // ✨ implement
     const token = localStorage.getItem('token');
     setSpinnerOn(true);
-    axios.delete(articlesUrl, article_id, {headers: {
+    console.log(article_id);
+    console.log(articlesUrl)
+    axios.delete("http://localhost:9000/api/articles" + `/${article_id}`, {headers: {
       authorization: token
     }})
     .then(res => {
       console.log(res);
+      getArticles();
     })
     .catch(err => {
       console.log(err);
@@ -140,7 +144,7 @@ export default function App() {
           <Route path="articles" element={
             <>
               <ArticleForm currentArticleId={currentArticleId} postArticle={postArticle} updateArticle={updateArticle} setCurrentArticleId={setCurrentArticleId} articles={articles}/>
-              <Articles deleteArticle={deleteArticle} articles={articles} getArticles={getArticles} setCurrentArticleId={setCurrentArticleId}/>
+              <Articles deleteArticle={deleteArticle} articles={articles} getArticles={getArticles} setCurrentArticleId={setCurrentArticleId} currentArticleId={currentArticleId}/>
             </>
           } />
         </Routes>

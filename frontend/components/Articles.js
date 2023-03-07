@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PT from 'prop-types'
 
 export default function Articles(props) {
   // ✨ where are my props? Destructure them here
-  const { articles, getArticles, setCurrentArticleId, deleteArticle } = props;
+  const { articles, getArticles, setCurrentArticleId, deleteArticle, currentArticleId } = props;
+  const [ del, setDelete ] = useState();
   const navigate = useNavigate();
 
   // ✨ implement conditional logic: if no token exists
@@ -18,6 +19,9 @@ export default function Articles(props) {
     // ✨ grab the articles here, on first render only
     getArticles();
   }, [])
+
+
+  
 
   return (
     // ✨ fix the JSX: replace `Function.prototype` with actual functions
@@ -37,7 +41,7 @@ export default function Articles(props) {
                 </div>
                 <div>
                   <button disabled={false} onClick={() => setCurrentArticleId(art.article_id)}>Edit</button>
-                  <button disabled={false} onClick={deleteArticle(art.article_id)}>Delete</button>
+                  <button disabled={false} onClick={() => deleteArticle(art.article_id)}>Delete</button>
                 </div>
               </div>
             )
